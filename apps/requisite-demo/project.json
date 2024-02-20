@@ -1,0 +1,76 @@
+{
+  "name": "requisite-demo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "slck-platform",
+  "sourceRoot": "apps/requisite-demo/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/requisite-demo",
+        "index": "apps/requisite-demo/src/index.html",
+        "browser": "apps/requisite-demo/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/requisite-demo/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/requisite-demo/src/favicon.ico",
+          "apps/requisite-demo/src/assets"
+        ],
+        "styles": ["apps/requisite-demo/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "requisite-demo:build:production"
+        },
+        "development": {
+          "buildTarget": "requisite-demo:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "requisite-demo:build"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "requisite-demo:build",
+        "staticFilePath": "dist/apps/requisite-demo/browser"
+      }
+    }
+  }
+}
